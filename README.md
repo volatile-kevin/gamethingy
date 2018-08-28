@@ -48,7 +48,7 @@ available online. We encourage you to research other resources as well.
 ### Create Repository (one-time)
 
 To create a repository for the class, visit
-<https://edu.cs.illinois.edu/ghe/createRepo/ece220/> and a repository will be
+<https://edu.cs.illinois.edu/create-ghe-repo/ece220-fa18/> and a repository will be
 created for you automatically. If you navigate to
 <https://github-dev.cs.illinois.edu/ECE220FA18>, you will see a repository under
 your NetID. Click on your NetID and you will be taken to a page that shows the

@@ -45,14 +45,13 @@ available online. We encourage you to research other resources as well.
 
 ## Course Setup
 
-### Create Repository (one-time)
+### Create Repository
 
-To create a repository for the class, visit
-<https://edu.cs.illinois.edu/create-ghe-repo/ece220-fa18/> and a repository will be
-created for you automatically. If you navigate to
-<https://github-dev.cs.illinois.edu/ECE220FA18>, you will see a repository under
-your NetID. Click on your NetID and you will be taken to a page that shows the
-contents of your repository.
+To create a repository for the class, first login at UIUC's Github at https://github-dev.cs.illinois.edu.
+Next, visit https://edu.cs.illinois.edu/create-ghe-repo/ece220-fa18/ to create a repository for this class. 
+Now, if you navigate to https://github-dev.cs.illinois.edu/ECE220FA18, you will see a repository under your NetID. 
+Click on your NetID and you will be shown a page that shows the contents of your repository. 
+Initially, this repository will be empty but don't worry about that because it will be populated soon.
 
 ### Clone Repository
 
@@ -114,15 +113,24 @@ To retrieve (or update) released assignments, run:
 
 ```
 git fetch release
-git merge release/<assignment> -m "<some comment>"
+git merge release/regular -m "<some comment>"
 git push origin master
 ``` 
 
-where `<assignment>` is a branch name corresponding to a particular assignment
-and `<some comment>` is a comment of your choice. The last command pushes the
+where `<some comment>` is a comment of your choice. The last command pushes the
 newly merged files to your remote repository. If something ever happens to your
 repository and you need to go back in time, you will be able to revert your
 repository to when you first retrieved an assignment.
+
+If you are in the Honors section for this class, you can retrieve (or update) honors assignments with:
+
+```
+git fetch release
+git merge release/honors -m "<some comment>"
+git push origin master
+``` 
+
+The commands for retrieving assignments for either section are exactly the same with the exception of the words ​`regular`​ and `​honors`​ which refer to the different branches on the `​_release`​ repository. 
 
 
 ## Submit assignments

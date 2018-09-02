@@ -1,3 +1,8 @@
+;Kevin Hu
+;kwh2
+;This program prints a value in hexadecimal notation by turning each group of four bits into a digit, 
+;calculating the corresponding ASCII character, and printing that character to the monitor
+
 .ORIG x3000
 
 

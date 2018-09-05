@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ;
 ; The code given to you here implements the histogram calculation that 
 ; we developed in class.  In programming lab, we will add code that
@@ -331,4 +330,4 @@ STR_START	.FILL x4000	; string starting address
 	; (so do not write any code below it!)
 
 	.END
->>>>>>> cc09013ece926b0bd262798732e0cdafdbfa2575
+

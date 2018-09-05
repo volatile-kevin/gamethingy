@@ -141,7 +141,7 @@ SHIFT_R3
 	BRnzp CHECK_MSB
 
 SILLY
-	LD R6,FORTY_EIGHT;Initialize R6 to 48
+	LD R6,FORTY_EIGHT ;Initialize R6 to 48
 	AND R4,R4,#0	;Initialize R4 to check R0
 	ADD R4,R0,#-9	;Check if digit is <= 9
 	BRnz PRINT

@@ -14,7 +14,7 @@
 	.ORIG	x3000		; starting address is x3000
 
 
-;
+; hi
 ; Count the occurrences of each letter (A to Z) in an ASCII string 
 ; terminated by a NUL character.  Lower case and upper case should 
 ; be counted together, and a count also kept of all non-alphabetic 

@@ -76,7 +76,8 @@ AT_LEAST_A
 ; note that we no longer need the current character
 ; so we can reuse R2 for the pointer to the correct
 ; histogram entry for incrementing
-ALPHA	ADD R2,R2,R0		; point to correct histogram entry
+ALPHA	
+	ADD R2,R2,R0		; point to correct histogram entry
 	LDR R6,R2,#0		; load the count
 	ADD R6,R6,#1		; add one to it
 	STR R6,R2,#0		; store the new count
@@ -95,36 +96,106 @@ GET_NEXT
 	BRnzp COUNTLOOP		; go to start of counting loop
 
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 PRINT_HIST
+	LD R5,A_TO_Z_START	;Set R5 as a counter for alphas
+	
+LOAD_R3
+	AND R1,R1,#0	;Initialize digit counter to 4
+	ADD R1,R1,#4
+	AND R6,R6,#0	;Initialize R6 to zero
+	
+	LD R6, NEG_SIXTY_FIVE 	;Load -65 to be added to content in R5 
+	ADD R3,R5,R6	;Subtract 65 from current a-z count
+	LD R6,HIST_ADDR	;Load content at first histogram location into R3
+	ADD R3,R3,R6	;R3 is now address of histogram 
+	ADD R3,R3,#1	;EDIITITITIITIT
+	LDR R3,R3,#0	;R3 is now the content at the current histogram location 
+	
+PRINT_LOCATION
+	AND R0,R0,#0	;load R5 into R0
+	ADD R0,R5,#0
+	OUT
+	LD R0,EQUALS	;Load equals sign hex value into R0
+	OUT
+	
+LOOP
+	ADD R1,R1,#0
+	BRnz FINISH_ROW
 
-; you will need to insert your code to print the histogram here
+	AND R2, R2, #0	;Initialize bit counter to 4
+	ADD R2,R2,#4
+	AND R0, R0, #0	;Initialize R0 to 0, this is the current digit
 
-; do not forget to write a brief description of the approach/algorithm
-; for your implementation, list registers used in this part of the code,
-; and provide sufficient comments
+CHECK_MSB
+	ADD R2,R2,#0	;Check if the bit counter is at 0 yet
+	BRnz SILLY
+	ADD R0,R0,R0	;Left-shift the digit
+	ADD R3,R3,#0
+	BRzp SHIFT_R3
+	ADD R0,R0,#1	;ADD 1 to R0 if there is a '1' at the MSB of R3
+
+SHIFT_R3
+	ADD R3,R3,R3	;Double R3 to left-shift
+	ADD R2,R2,#-1	;Decrement bit counter
+	BRnzp CHECK_MSB
+
+SILLY
+	LD R6,FORTY_EIGHT;Initialize R6 to 48
+	AND R4,R4,#0	;Initialize R4 to check R0
+	ADD R4,R0,#-9	;Check if digit is <= 9
+	BRnz PRINT
+	ADD R0,R0,#7	;If >9, add 7 to get to A-F
+	
+PRINT 
+	ADD R0,R0,R6 
+	OUT
+	ADD R1,R1,#-1	;Decrement digit counter
+	BRnzp LOOP	
+	
+FINISH_ROW
+	ADD R5,R5,#1	;Increment R5 (a-z counter)
+	LD R0,NEG_Z		;Check if R5 has passed 'Z' in the count
+	AND R6,R6,#0	
+	ADD R6,R5,R0	
+	BRp DONE
+	LD R0,NEW_LINE	;Print a new line
+	OUT
+	BRnzp LOAD_R3
+	
+	
+	
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
-DONE	HALT			; done
+DONE	
+	HALT	; done
 
 
 ; the data needed by the program
-NUM_BINS	.FILL #27	; 27 loop iterations
+NEW_LINE		.FILL #10	;Newline char 
+EQUALS 			.FILL #61	;Equals sign hex value
+A_TO_Z_START 	.FILL #64	;Starting location of a-z counter ('@' char for non-alphas)
+NEG_SIXTY_FIVE 	.FILL #-65 	;Number to subtract from a-z counter to get current hist location
+Z				.FILL #90	;Z in hex, used to find end of a-z counter 
+NUM_BINS		.FILL #27	;27 loop iterations
+NEG_Z			.FILL #-90	;Difference between 'Z' and x0000
+FORTY_EIGHT		.FILL #48	;48
 NEG_AT		.FILL xFFC0	; the additive inverse of ASCII '@'
 AT_MIN_Z	.FILL xFFE6	; the difference between ASCII '@' and 'Z'
 AT_MIN_BQ	.FILL xFFE0	; the difference between ASCII '@' and '`'
-HIST_ADDR	.FILL x3F00     ; histogram starting address
-STR_START	.FILL x4000	; string starting address
+HIST_ADDR	.FILL x3F00 ; histogram starting address
+;STR_START	.FILL x4000	; string starting address
+
 
 ; for testing, you can use the lines below to include the string in this
 ; program...
-; STR_START	.FILL STRING	; string starting address
-; STRING		.STRINGZ "This is a test of the counting frequency code.  AbCd...WxYz."
+STR_START	.FILL STRING	; string starting address
+STRING		.STRINGZ "FUCKERS!!!!!   KEVIN IS GAY"
 
 
 
 	; the directive below tells the assembler that the program is done
 	; (so do not write any code below it!)
 
-	.END
+.END

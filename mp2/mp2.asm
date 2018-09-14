@@ -1,4 +1,6 @@
 ; mp2.asm
+; Kevin Hu, Joe Lopez, Daniel Ao
+; kwh2, joseal2, dao3
 ; Implement a stack calculator that can do the following operations:
 ; ADD, SUBTRACT, MULTIPLY, DIVIDE
 

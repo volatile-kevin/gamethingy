@@ -31,8 +31,6 @@ Enter your guess (#1 #2 #3 #4): make_guess: invalid guess
 Enter your guess (#1 #2 #3 #4): make_guess: invalid guess
 Enter your guess (#1 #2 #3 #4): make_guess: invalid guess
 Enter your guess (#1 #2 #3 #4): With guess 5, you got 1 perfect matches and 0 misplaced matches.
-Guess 6
-Enter your guess (#1 #2 #3 #4): With guess 6, you got 0 perfect matches and 0 misplaced matches.
-You failed to guess correctly in 6 guesses.
+You failed to guess correctly in 5 guesses.
 
 The solution was 5 4 5 4.

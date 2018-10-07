@@ -30,6 +30,7 @@ int main(){
    }
 
    // TODO: call the print_semiprimes function to print semiprimes in [a,b] (including a and b)
+   print_semiprimes(a,b);
 }
 
 
@@ -40,6 +41,13 @@ int main(){
  */
 int is_prime(int number)
 {
+  if(number==1)
+    return 0;
+  for(int i=2; i<number; i++){
+    if(number%i==0)
+      return 0;
+  }
+  return 1;
 }
 
 
@@ -50,7 +58,21 @@ int is_prime(int number)
  */
 int print_semiprimes(int a, int b)
 {
-}
+  int flag = 0;
+  for(int n=a ;n<=b; n++){
+    bool flag1 = true;
+    for(int k=2; k<n; k++){
+      if(is_prime(k)==1 && n%k==0 && is_prime(n/k)==1 && flag1){
+	printf("%d ", n);
+	flag = 1;
+        flag1 = false;
+      }
+    }
 
+  }
+  printf("%c", '\n');
+  return flag;
+
+}
 
 

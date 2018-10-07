@@ -35,7 +35,7 @@ int main(){
 
 
 /*
- * TODO: implement this function to check the number is prime or not.
+ * This function checks if the number is prime or not.
  * Input    : a number
  * Return   : 0 if the number is not prime, else 1
  */
@@ -52,7 +52,7 @@ int is_prime(int number)
 
 
 /*
- * TODO: implement this function to print all semiprimes in [a,b] (including a, b).
+ * This function prints all semiprimes in [a,b] (including a, b).
  * Input   : a, b (a should be smaller than or equal to b)
  * Return  : 0 if there is no semiprime in [a,b], else 1
  */
@@ -74,5 +74,3 @@ int print_semiprimes(int a, int b)
   return flag;
 
 }
-
-

@@ -1,6 +1,8 @@
 #include <stdio.h>
 
-/* 
+/* Kevin Hu, Jose Lopez, Daniel Ao
+ * kwh2, joseal2, dao3
+ * This is mp5, uses seeds and tracks guesses
  * Your code is included as part of this file.
  */
 #include "prog5.h"

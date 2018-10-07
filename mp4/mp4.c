@@ -1,3 +1,12 @@
+/*ECE 220 MP4
+*
+*Group Members:
+*Kevin Hu, Joe Lopez, Daniel Ao
+*kwh2, joseal2, dao3
+*
+*This program prints all the semiprimes in a given range.
+*it uses 2 functions to determine if a number is prime and another to print
+*/
 #include <stdlib.h>
 #include <stdio.h>
 

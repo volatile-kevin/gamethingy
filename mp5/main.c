@@ -1,8 +1,6 @@
 #include <stdio.h>
 
-/* Kevin Hu, Jose Lopez, Daniel Ao
- * kwh2, joseal2, dao3
- * This is mp5, uses seeds and tracks guesses
+/*
  * Your code is included as part of this file.
  */
 #include "prog5.h"
@@ -30,10 +28,13 @@ int main ()
     start_game (&solution[0], &solution[1], &solution[2], &solution[3]);
 
     //Go until 5 guesses, or user wins
+
+
     for (number = 1; 5 >= number; number++) {
 	printf ("Guess %d\n", number);
 	do {
 	    printf ("Enter your guess (#1 #2 #3 #4): ");
+
 	    if (NULL == fgets (buf, 200, stdin)) {
 		printf ("\nProgram terminated.\n");
 		return 3;
@@ -52,4 +53,3 @@ int main ()
 
     return 0;
 }
-

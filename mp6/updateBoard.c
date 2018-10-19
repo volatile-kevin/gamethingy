@@ -1,5 +1,5 @@
-/*Jose Lopez - joseal2
-*Partners: Daniel Ao - dao3, Kevin Hu - kwh2
+/*Kevin Hu - kwh2
+*Partners: Daniel Ao - dao3, Jose Lopez - joseal2
 *This program updates a gameboard based on Conway's game of life.
 *The three functions are called by main.c and provide the status of the board
 *and what should be update/changed. The board is represented by an array that

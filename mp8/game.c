@@ -1,5 +1,5 @@
 #include "game.h"
-/* Jose Lopez - joseal2
+/* Jose Lopez - joseal2, Kevin Hu - kwh2, Daniel Ao - dao3
 *This program runs a game of 2048 using the w,a,s, and d keys to shift the game
 *board up and down. When shifted, cells that are occupied by values (not -1) will
 *occupy empty spaces and merge with like cells that are surrounding them.

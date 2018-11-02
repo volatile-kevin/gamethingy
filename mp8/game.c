@@ -1,10 +1,14 @@
 #include "game.h"
-
+/* Jose Lopez - joseal2
+*This program runs a game of 2048 using the w,a,s, and d keys to shift the game
+*board up and down. When shifted, cells that are occupied by values (not -1) will
+*occupy empty spaces and merge with like cells that are surrounding them.
+*/
 
 game * make_game(int rows, int cols)
 /*! Create an instance of a game structure with the given number of rows
     and columns, initializing elements to -1 and return a pointer
-    to it. (See game.h for the specification for the game data structure) 
+    to it. (See game.h for the specification for the game data structure)
     The needed memory should be dynamically allocated with the malloc family
     of functions.
 */
@@ -13,8 +17,16 @@ game * make_game(int rows, int cols)
     game * mygame = malloc(sizeof(game));
     mygame->cells = malloc(rows*cols*sizeof(cell));
 
-    //YOUR CODE STARTS HERE:  Initialize all other variables in game struct
+    //Set row, column, and scores of the new game structure to values passed by user
+    mygame->rows = rows;
+    mygame->cols = cols;
+    mygame->score = 0;
 
+    int i; //Set each cell in the game to "-1"
+    for (i = 0;i < rows*cols;i++)
+    {
+      mygame->cells[i] = -1;
+    }
 
     return mygame;
 }
@@ -22,8 +34,8 @@ game * make_game(int rows, int cols)
 void remake_game(game ** _cur_game_ptr,int new_rows,int new_cols)
 /*! Given a game structure that is passed by reference, change the
 	game structure to have the given number of rows and columns. Initialize
-	the score and all elements in the cells to -1. Make sure that any 
-	memory previously allocated is not lost in this function.	
+	the score and all elements in the cells to -1. Make sure that any
+	memory previously allocated is not lost in this function.
 */
 {
 	/*Frees dynamically allocated memory used by cells in previous game,
@@ -31,9 +43,17 @@ void remake_game(game ** _cur_game_ptr,int new_rows,int new_cols)
 	free((*_cur_game_ptr)->cells);
 	(*_cur_game_ptr)->cells = malloc(new_rows*new_cols*sizeof(cell));
 
-	 //YOUR CODE STARTS HERE:  Re-initialize all other variables in game struct
+  (*_cur_game_ptr)->rows = new_rows;
+  (*_cur_game_ptr)->cols = new_cols;
+  (*_cur_game_ptr)->score = 0;
 
-	return;	
+  int i; //Set each cell in the game to "-1"
+  for (i = 0;i < new_rows*new_cols;i++)
+  {
+    (*_cur_game_ptr)->cells[i] = -1;
+  }
+
+	return;
 }
 
 void destroy_game(game * cur_game)
@@ -53,42 +73,249 @@ cell * get_cell(game * cur_game, int row, int col)
 	if the row and col coordinates do not exist.
 */
 {
-    //YOUR CODE STARTS HERE
-
-    return NULL;
+    int position = row*(cur_game->cols) + col; //multiply rows by # of columns and add cols
+    return &(cur_game->cells[position]); //return pointer to cell
 }
 
 int move_w(game * cur_game)
-/*!Slides all of the tiles in cur_game upwards. If a tile matches with the 
+/*!Slides all of the tiles in cur_game upwards. If a tile matches with the
    one above it, the tiles are merged by adding their values together. When
-   tiles merge, increase the score by the value of the new tile. A tile can 
-   not merge twice in one turn. If sliding the tiles up does not cause any 
-   cell to change value, w is an invalid move and return 0. Otherwise, return 1. 
+   tiles merge, increase the score by the value of the new tile. A tile can
+   not merge twice in one turn. If sliding the tiles up does not cause any
+   cell to change value, w is an invalid move and return 0. Otherwise, return 1.
 */
 {
-    //YOUR CODE STARTS HERE
+    int N,M,i,move, likeFound, notLikeFound; //column, row, and counter for for loops
+    move = 0; //variable that states wether a move has been made (move = 1)
+    likeFound = 0; //variable to flag when a like cell is found
+    notLikeFound = 0; //variable to flag when a cell that is different is found
 
-    return 1;
-};
+    for (N=0;N < cur_game->cols;N++)
+    {
+      for (M=0;M < cur_game->rows;M++)
+      {
+        if (*(get_cell(cur_game,M,N)) != -1) //if you find a block that isn't empty
+        {
+          //First check for like cells below
+          i = M + 1;
+          //Check all rows below for a like cell or an unlike, occupied cell
+          while (i < cur_game->rows && !likeFound && !notLikeFound)
+          {
+            //If an unlike,occupied cell is found, set the flag
+            if (*(get_cell(cur_game,i,N)) != -1 &&
+                *(get_cell(cur_game,i,N)) != *(get_cell(cur_game,M,N)))
+              notLikeFound = 1;
 
-int move_s(game * cur_game) //slide down
-{
-    //YOUR CODE STARTS HERE
+            //If one is found, combine the cells
+            else if (*(get_cell(cur_game,M,N)) == *(get_cell(cur_game,i,N)))
+            {
+              //Combine the two cells
+              *(get_cell(cur_game,M,N)) = *(get_cell(cur_game,M,N)) + *(get_cell(cur_game,i,N));
+              //Increment score
+              cur_game->score += *(get_cell(cur_game,M,N));
 
-    return 1;
+              //Make the lower cell == -1
+              *(get_cell(cur_game,i,N)) = -1;
+              move = 1;
+              likeFound = 1;
+            }
+            i++; //Keep on checking boi
+          }
+          i = 0; //Reset i, likeFound, and notLikeFound values
+          likeFound = 0;
+          notLikeFound = 0;
+
+          //Now check the ones above it
+          for (i=0; i < M; i++)
+          {
+            if (*(get_cell(cur_game,i,N)) == -1) //If it's empty above, slide up
+            {
+              *(get_cell(cur_game,i,N)) = *(get_cell(cur_game,M,N));
+              *(get_cell(cur_game,M,N)) = -1;
+              move = 1;
+            }
+          }
+        }
+      }
+    }
+
+    return move;
 };
 
 int move_a(game * cur_game) //slide left
 {
-    //YOUR CODE STARTS HERE
+  int N,M,i,move, likeFound, notLikeFound; //column, row, and counter for for loops
+  move = 0;
+  likeFound = 0; //variable to flag when a like cell is found
+  notLikeFound = 0; //variable to flag when a cell that is different is found
 
-    return 1;
+  for (M=0;M < cur_game->rows;M++)
+  {
+    for (N=0;N < cur_game->cols;N++)
+    {
+      if (*(get_cell(cur_game,M,N)) != -1) //if you find a block that isn't empty
+      {
+        //First check for like cells to the right
+        i = N + 1;
+        //Check all rows to right for a like cell or an unlike, occupied cell
+        while (i < cur_game->cols && !likeFound && !notLikeFound)
+        {
+          //If an unlike,occupied cell is found, set the flag
+          if (*(get_cell(cur_game,M,i)) != -1 &&
+              *(get_cell(cur_game,M,i)) != *(get_cell(cur_game,M,N)))
+            notLikeFound = 1;
+
+          //If one is found, combine the cells
+          else if (*(get_cell(cur_game,M,N)) == *(get_cell(cur_game,M,i)))
+          {
+            //Combine the two cells
+            *(get_cell(cur_game,M,N)) = *(get_cell(cur_game,M,N)) + *(get_cell(cur_game,M,i));
+            //Increment score
+            cur_game->score += *(get_cell(cur_game,M,N));
+
+            //Make the right cell == -1
+            *(get_cell(cur_game,M,i)) = -1;
+            move = 1;
+            likeFound = 1;
+          }
+          i++; //Keep on checking boi
+        }
+        i = 0; //Reset i, likeFound, and notLikeFound values
+        likeFound = 0;
+        notLikeFound = 0;
+
+        //Now check the ones to the left of it
+        for (i=0; i < N; i++)
+        {
+          if (*(get_cell(cur_game,M,i)) == -1) //If it's empty above, slide left
+          {
+            *(get_cell(cur_game,M,i)) = *(get_cell(cur_game,M,N));
+            *(get_cell(cur_game,M,N)) = -1;
+            move = 1;
+          }
+        }
+      }
+    }
+  }
+
+    return move;
 };
 
-int move_d(game * cur_game){ //slide to the right
-    //YOUR CODE STARTS HERE
+int move_s(game * cur_game) //slide down
+{
+  int N,M,i,move, likeFound, notLikeFound; //column, row, and counter for for loops
+  move = 0;
+  likeFound = 0; //variable to flag when a like cell is found
+  notLikeFound = 0; //variable to flag when a cell that is different is found
 
-    return 1;
+  for (N=0; N<cur_game->cols; N++)
+  {
+    for (M = cur_game->rows-1; M>=0; M--)
+    {
+      if (*(get_cell(cur_game,M,N)) != -1) //if you find a block that isn't empty
+      {
+        //First check for like cells above
+        i = M-1;
+        //Check all rows above for a like cell or an unlike,occupied cell
+        while (i >= 0 && !likeFound && !notLikeFound)
+        {
+          //If an unlike,occupied cell is found, set the flag
+          if (*(get_cell(cur_game,i,N)) != -1 &&
+              *(get_cell(cur_game,i,N)) != *(get_cell(cur_game,M,N)))
+            notLikeFound = 1;
+
+          //If one is found, combine the cells
+          if (*(get_cell(cur_game,M,N)) == *(get_cell(cur_game,i,N)))
+          {
+            //Combine the two cells
+            *(get_cell(cur_game,M,N)) = *(get_cell(cur_game,M,N)) + *(get_cell(cur_game,i,N));
+            //Increment score
+            cur_game->score += *(get_cell(cur_game,M,N));
+
+            //Make the higher cell == -1
+            *(get_cell(cur_game,i,N)) = -1;
+            move = 1;
+            likeFound = 1;
+          }
+          i--; //Keep on checking boi
+        }
+        i = 0; //Reset i, likeFound, and notLikeFound values
+        likeFound = 0;
+        notLikeFound = 0;
+
+        //Now check the ones below it
+        for (i=cur_game->rows-1; i > M; i--)
+        {
+          if (*(get_cell(cur_game,i,N)) == -1) //If it's empty above, slide up
+          {
+            *(get_cell(cur_game,i,N)) = *(get_cell(cur_game,M,N));
+            *(get_cell(cur_game,M,N)) = -1;
+            move = 1;
+          }
+        }
+      }
+    }
+  }
+
+    return move;
+};
+
+int move_d(game * cur_game) //slide to the right
+{
+  int N,M,i,move, likeFound, notLikeFound; //column, row, and counter for for loops
+  move = 0;
+  likeFound = 0; //variable to flag when a like cell is found
+  notLikeFound = 0; //variable to flag when a cell that is different is found
+
+  for (M = cur_game->rows-1; M>=0; M--)
+  {
+    for (N = cur_game->cols-1; N>=0; N--)
+    {
+      if (*(get_cell(cur_game,M,N)) != -1) //if you find a block that isn't empty
+      {
+        //First check for like cells to the left
+        i = N-1;
+        //Check all rows to left for a like cell or an unlike,occupied cell
+        while (i >= 0 && !likeFound && !notLikeFound)
+        {
+          //If an unlike,occupied cell is found, set the flag
+          if (*(get_cell(cur_game,M,i)) != -1 &&
+              *(get_cell(cur_game,M,i)) != *(get_cell(cur_game,M,N)))
+            notLikeFound = 1;
+
+          //If one is found, combine the cells
+          if (*(get_cell(cur_game,M,N)) == *(get_cell(cur_game,M,i)))
+          {
+            //Combine the two cells
+            *(get_cell(cur_game,M,N)) = *(get_cell(cur_game,M,N)) + *(get_cell(cur_game,M,i));
+            //Increment score
+            cur_game->score += *(get_cell(cur_game,M,N));
+
+            //Make the left cell == -1
+            *(get_cell(cur_game,M,i)) = -1;
+            move = 1;
+            likeFound = 1;
+          }
+          i--; //Keep on checking boi
+        }
+        i = 0; //Reset i, likeFound, and notLikeFound values
+        likeFound = 0;
+        notLikeFound = 0;
+
+        //Now check the ones to the right
+        for (i=cur_game->cols-1; i > N; i--)
+        {
+          if (*(get_cell(cur_game,M,i)) == -1) //If it's empty above, slide right
+          {
+            *(get_cell(cur_game,M,i)) = *(get_cell(cur_game,M,N));
+            *(get_cell(cur_game,M,N)) = -1;
+            move = 1;
+          }
+        }
+      }
+    }
+  }
+    return move;
 };
 
 int legal_move_check(game * cur_game)
@@ -97,9 +324,34 @@ int legal_move_check(game * cur_game)
 	Return 1 if there are possible legal moves, 0 if there are none.
  */
 {
-    //YOUR CODE STARTS HERE
+  int M,N;
+  for (N=0; N<cur_game->cols; N++)
+  {
+    for (M=0; M<cur_game->rows; M++)
+    {
+      if (*(get_cell(cur_game,M,N)) == -1) //Check for empty spaces
+        return 1;
+      //Check for like cells above
+      else if (M-1 >= 0 &&
+              *(get_cell(cur_game,M,N)) == *(get_cell(cur_game,M-1,N)))
+        return 1;
+      //Check for like cells below
+      else if (M+1 < cur_game->rows &&
+              *(get_cell(cur_game,M,N)) == *(get_cell(cur_game,M+1,N)))
+        return 1;
+      //Check for like cells to left
+      else if (N-1 >= 0 &&
+              *(get_cell(cur_game,M,N)) == *(get_cell(cur_game,M,N-1)))
+        return 1;
+      //Check for like cells to right
+      else if (N+1 < cur_game->cols &&
+              *(get_cell(cur_game,M,N)) == *(get_cell(cur_game,M,N+1)))
+        return 1;
 
-    return 1;
+    }
+  }
+
+  return 0;
 }
 
 
@@ -109,32 +361,32 @@ void rand_new_tile(game * cur_game)
 /*! insert a new tile into a random empty cell. First call rand()%(rows*cols) to get a random value between 0 and (rows*cols)-1.
 */
 {
-	
+
 	cell * cell_ptr;
     cell_ptr = 	cur_game->cells;
-	
-    if (cell_ptr == NULL){ 	
+
+    if (cell_ptr == NULL){
         printf("Bad Cell Pointer.\n");
         exit(0);
     }
-	
-	
+
+
 	//check for an empty cell
 	int emptycheck = 0;
 	int i;
-	
+
 	for(i = 0; i < ((cur_game->rows)*(cur_game->cols)); i++){
 		if ((*cell_ptr) == -1){
 				emptycheck = 1;
 				break;
-		}		
+		}
         cell_ptr += 1;
 	}
 	if (emptycheck == 0){
 		printf("Error: Trying to insert into no a board with no empty cell. The function rand_new_tile() should only be called after tiles have succesfully moved, meaning there should be at least 1 open spot.\n");
 		exit(0);
 	}
-	
+
     int ind,row,col;
 	int num;
     do{
@@ -152,7 +404,7 @@ void rand_new_tile(game * cur_game)
 	}
 }
 
-int print_game(game * cur_game) 
+int print_game(game * cur_game)
 {
     cell * cell_ptr;
     cell_ptr = 	cur_game->cells;
@@ -160,21 +412,21 @@ int print_game(game * cur_game)
     int rows = cur_game->rows;
     int cols = cur_game->cols;
     int i,j;
-	
-	printf("\n\n\nscore:%d\n",cur_game->score); 
-	
-	
+
+	printf("\n\n\nscore:%d\n",cur_game->score);
+
+
 	printf("\u2554"); // topleft box char
 	for(i = 0; i < cols*5;i++)
 		printf("\u2550"); // top box char
-	printf("\u2557\n"); //top right char 
-	
-	
+	printf("\u2557\n"); //top right char
+
+
     for(i = 0; i < rows; i++){
 		printf("\u2551"); // side box char
         for(j = 0; j < cols; j++){
             if ((*cell_ptr) == -1 ) { //print asterisks
-                printf(" **  "); 
+                printf(" **  ");
             }
             else {
                 switch( *cell_ptr ){ //print colored text
@@ -227,22 +479,22 @@ int print_game(game * cur_game)
         }
 	printf("\u2551\n"); //print right wall and newline
     }
-	
+
 	printf("\u255A"); // print bottom left char
 	for(i = 0; i < cols*5;i++)
 		printf("\u2550"); // bottom char
 	printf("\u255D\n"); //bottom right char
-	
+
     return 0;
 }
 
 int process_turn(const char input_char, game* cur_game) //returns 1 if legal move is possible after input is processed
-{ 
+{
 	int rows,cols;
 	char buf[200];
 	char garbage[2];
     int move_success = 0;
-	
+
     switch ( input_char ) {
     case 'w':
         move_success = move_w(cur_game);
@@ -268,28 +520,28 @@ int process_turn(const char input_char, game* cur_game) //returns 1 if legal mov
 			printf("\nProgram Terminated.\n");
 			return 0;
 		}
-		
+
 		if (2 != sscanf(buf,"%d%d%1s",&rows,&cols,garbage) ||
 		rows < 0 || cols < 0){
 			printf("Invalid dimensions.\n");
 			goto dim_prompt;
-		} 
-		
+		}
+
 		remake_game(&cur_game,rows,cols);
-		
+
 		move_success = 1;
-		
+
     default: //any other input
         printf("Invalid Input. Valid inputs are: w, a, s, d, q, n.\n");
     }
 
-	
-	
-	
+
+
+
     if(move_success == 1){ //if movement happened, insert new tile and print the game.
-         rand_new_tile(cur_game); 
+         rand_new_tile(cur_game);
 		 print_game(cur_game);
-    } 
+    }
 
     if( legal_move_check(cur_game) == 0){  //check if the newly spawned tile results in game over.
         printf("Game Over!\n");

@@ -1,6 +1,6 @@
-/*Jose Lopez - joseal2
-* Partners: Daniel Ao - dao3
-*          Kevin Hu - kwh2
+/*Kevin Hu
+* Partners: Joe Lopez - Joseal2
+*            Daniel Ao - dao3
 * This program does sparse matrix operations, as well as loading matrices from a file
 * it creates a linkedlist of all the non-zero elements in the matrix
 */

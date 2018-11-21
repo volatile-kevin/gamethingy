@@ -2,9 +2,9 @@
 BIN=floorplanner
 
 $(BIN): main.c floorplan.c floorplan.h
-	g++ -Wall -O3 -c floorplan.c -o floorplan.o
-	g++ -Wall -O3 -c main.c -o main.o
-	g++ -Wall -O3 floorplan.o main.o -L./lib -ltest -o $(BIN) 
+	g++ -Wall -O3 -g -c floorplan.c -o floorplan.o
+	g++ -Wall -O3 -g -c main.c -o main.o
+	g++ -Wall -O3 floorplan.o main.o -L./lib -ltest -o $(BIN)
 
 .PHONY: clean
 clean:

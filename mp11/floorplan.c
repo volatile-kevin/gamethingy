@@ -1,6 +1,6 @@
 #include "floorplan.h"
 // Kevin Hu - kwh2
-// Daniel "Cookie" Ao - dao3, Jose Lopez - joseal2
+// Daniel "Cookie!" Ao - dao3, Jose Lopez - joseal2
 
 
 // Global variables. The global variables will be effectice after the input has been parsed

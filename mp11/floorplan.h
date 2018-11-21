@@ -76,6 +76,7 @@ node_t* init_slicing_tree(node_t*, int);                    // Initialize the tr
 node_t* challenge_init_slicing_tree();                      // Initialize the tree.
 node_t* challenge_init_slicing_tree(node_t*, int);          // Initialize the tree.
 module_t* get_module(int);                                  // Get the module pointer.
-void print_tree(node_t*);
+
+
 
 #endif

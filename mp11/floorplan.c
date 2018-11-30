@@ -1,6 +1,7 @@
 #include "floorplan.h"
 // Kevin Hu - kwh2
 // Daniel "Cookie!" Ao - dao3, Jose Lopez - joseal2
+//This program uses various functions to initialize a left skewed tree as well as comparing and swapping certain nodes
 
 
 // Global variables. The global variables will be effectice after the input has been parsed

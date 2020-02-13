@@ -336,9 +336,9 @@ int get_total_resource(node_t* ptr)
   // TODO:
   if(ptr->left == NULL && ptr->right == NULL)
   		return ptr->module->resource;
-  if(ptr->left != NULL)
+  //if(ptr->left != NULL)
       sum += get_total_resource(ptr->left);
-  if(ptr->right != NULL)
+  //if(ptr->right != NULL)
       sum += get_total_resource(ptr->right);
   return sum;
 }

@@ -1,8 +1,5 @@
 #include "shape.hpp"
-// Kevin Hu - kwh2
-// Joe Lopez -Joseal2
-// Daniel Ao -dao3
-//this program is composed of classes and demonstrates inheritance
+
 
 
 //Base class
@@ -10,9 +7,11 @@
 //constructor, getName()
 
 Shape::Shape(string name){
-    name_ = name;
+  name_ = name;
+    //TODO
 }
 string Shape::getName(){
+    //TODO
     return name_;
 }
 
@@ -23,11 +22,13 @@ string Shape::getName(){
 //copy(), clear()
 
 void Rectangle::copy(const Rectangle& other){
+    //TODO
     spec = new double[2];
     spec[0] = other.getWidth();
     spec[1] = other.getLength();
 }
 void Rectangle::clear(){
+    //TODO
     free(spec);
 }
 Rectangle::Rectangle(double width, double length):Shape("Rectangle"){
@@ -55,15 +56,17 @@ double Rectangle::getVolume()const{
     return 0;
 }
 Rectangle Rectangle::operator + (const Rectangle& rhs){
+    //TODO
     double newWidth = rhs.getWidth() + this->spec[0];
     double newLength = rhs.getLength() + this->spec[1];
     return Rectangle(newWidth,newLength);
 }
 
 Rectangle Rectangle::operator - (const Rectangle& rhs){
-  double newWidth = max(0.0,(-rhs.getWidth() + this->spec[0]));
-  double newLength = max(0.0,(-rhs.getLength() + this->spec[1]));
-  return Rectangle(newWidth,newLength);
+    //TODO
+    double newWidth = max(0.0,(-rhs.getWidth() + this->spec[0]));
+    double newLength = max(0.0,(-rhs.getLength() + this->spec[1]));
+    return Rectangle(newWidth,newLength);
 }
 
 // double * spec;
@@ -90,12 +93,14 @@ void Rectangle::setLength(double length){
 //constructor, getArea(), getVolume(), operator+, operator-
 //@@Insert your code here
 void RectPrism::copy(const RectPrism& other){
-  spec = new double[3];
-  spec[1] = other.getWidth();
-  spec[0] = other.getLength();
-  spec[2] = other.getHeight();
+    //TODO
+    spec = new double[3];
+    spec[0] = other.getLength();
+    spec[1] = other.getWidth();
+    spec[2] = other.getHeight();
 }
 void RectPrism::clear(){
+    //TODO
     free(spec);
 }
 RectPrism::RectPrism(double width, double length, double height):Shape("RectPrism"){
@@ -116,24 +121,26 @@ const RectPrism& RectPrism::operator = (const RectPrism& other){
     return *this;
 }
 double RectPrism::getVolume()const{
-    return (spec[2]*spec[1]*spec[0]);
+    //TODO
+    return spec[0]*spec[1]*spec[2];
 }
-
 double RectPrism::getArea()const{
-    return (2 * (spec[1]*spec[0] + spec[1]*spec[2] + spec[0]*spec[2]));
+    //TODO
+    return 2*(spec[0]*spec[1]+spec[0]*spec[2]+spec[1]*spec[2]);
 }
-
 RectPrism RectPrism::operator + (const RectPrism& rhs){
-  double newLength = rhs.getLength() + spec[0];
-  double newWidth = rhs.getWidth() + spec[1];
-  double newHeight = rhs.getHeight() + spec[2];
-  return RectPrism(newWidth,newLength,newHeight);
+    //TODO
+    double newWidth = rhs.getWidth() + spec[1];
+    double newLength = rhs.getLength() + spec[0];
+    double newHeight = rhs.getHeight() + spec[2];
+    return RectPrism(newWidth,newLength,newHeight);
 }
 
 RectPrism RectPrism::operator - (const RectPrism& rhs){
-    double newWidth = max(0.0,-rhs.getWidth() + spec[1]);
-    double newLength = max(0.0,-rhs.getLength() + spec[0]);
-    double newHeight = max(0.0,-rhs.getHeight() + spec[2]);
+    //TODO
+    double newWidth = max(0.0,(-rhs.getWidth() + spec[1]));
+    double newLength = max(0.0,(-rhs.getLength() + spec[0]));
+    double newHeight = max(0.0,(-rhs.getHeight() + spec[2]));
     return RectPrism(newWidth,newLength,newHeight);
 }
 
@@ -176,23 +183,25 @@ vector<Shape*> CreateShapes(char* file_name){
     vector<Shape*> shape_ptrs;
     //TODO
     for(int i =0; i<num_shapes; i++){
-      string name;
-      double w,l,h;
-      Shape* temp;
-      ifs>>name>>w>>l;
-      if(name.compare("Rectangle")==0){
-        temp = new Rectangle(w,l);
-      } else {
-        ifs>>h;
-        temp = new RectPrism(w,l,h);
-      }
+        string name;
+        double w,l,h;
+        Shape* temp;
+        ifs>>name>>w>>l;
+        if(name.compare("Rectangle")==0){
+          temp = new Rectangle(w,l);
+        }
+        else
+        {
+          ifs>>h;
+          temp = new RectPrism(w,l,h);
+        }
       shape_ptrs.push_back(temp);
     }
 
     ifs.close();
-    for (int i = 0; i<num_shapes; i++){
-    }
+
     return shape_ptrs;
+
 }
 
 // call getArea() of each object
@@ -202,11 +211,14 @@ double MaxArea(vector<Shape*> shapes){
     int numberOfShapes = shapes.size();
     int i;
 
-    for (i = 0;i<numberOfShapes;i++){
+
+    for(i = 0; i<numberOfShapes; i++)
+    {
       if(shapes[i]->getArea() > max_area){
-          max_area = shapes[i]->getArea();
+        max_area = shapes[i]->getArea();
       }
     }
+
 
     return max_area;
 }
@@ -220,12 +232,13 @@ double MaxVolume(vector<Shape*> shapes){
     int numberOfShapes = shapes.size();
     int i;
 
-    for (i = 0;i<numberOfShapes;i++){
+
+    for(i = 0; i<numberOfShapes; i++)
+    {
       if(shapes[i]->getVolume() > max_volume){
         max_volume = shapes[i]->getVolume();
       }
     }
-
 
     return max_volume;
 }

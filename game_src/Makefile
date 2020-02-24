@@ -1,13 +1,13 @@
 CC=gcc
-CFLAGS=-g -std=c99 -Wall #-Werror
+CFLAGS=-g -std=c99 -Wall -fPIC #-Werror
 
-all: mp8 mp8_gold test
+all: mp8 test
 
 mp8: main.o game.o getch_fun.o
 	$(CC) $(CFLAGS) main.o game.o getch_fun.o -o mp8
 
-mp8_gold: main.o getch_fun.o
-	$(CC) $(CFLAGS) main.o test_src/game_gold.o getch_fun.o -o mp8_gold
+# mp8_gold: main.o getch_fun.o
+	# $(CC) $(CFLAGS) main.o test_src/game_gold.o getch_fun.o -o mp8_gold
 
 test: test_src/test.o  game.o getch_fun.o
 	$(CC) $(CFLAGS) test_src/test.o test_src/game_test.o game.o getch_fun.o -o mp8_test

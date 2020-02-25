@@ -7,18 +7,18 @@ int main(int argc, char *argv[])
 	int rows,cols;
 	char buf[200];
 	char garbage[2];
-	printf("2048: Enter dimensions (rows columns):");
-	if (NULL == fgets(buf,200,stdin)) {
-		printf("\nProgram Terminated.\n");
-		return 2;
-	}
-	if (2 != sscanf(buf,"%d%d%1s",&rows,&cols,garbage) ||
-	rows < 0 || cols < 0){
-		printf("invalid dimensions\n");
-		return 2;
-	}
+	// printf("2048: Enter dimensions (rows columns):");
+	// if (NULL == fgets(buf,200,stdin)) {
+	// 	printf("\nProgram Terminated.\n");
+	// 	return 2;
+	// }
+	// if (2 != sscanf(buf,"%d%d%1s",&rows,&cols,garbage) ||
+	// rows < 0 || cols < 0){
+	// 	printf("invalid dimensions\n");
+	// 	return 2;
+	// }
 	
-    game * cur_game = make_game(rows,cols); //make new game entity called cur_game and insert the first random tile
+    game * cur_game = make_game(); //make new game entity called cur_game and insert the first random tile
 	if( cur_game == NULL ){
 		printf("Bad game pointer\n");
 		return 2;

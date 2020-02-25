@@ -1,11 +1,6 @@
 #include "game.h"
-/* Jose Lopez - joseal2, Kevin Hu - kwh2, Daniel Ao - dao3
-*This program runs a game of 2048 using the w,a,s, and d keys to shift the game
-*board up and down. When shifted, cells that are occupied by values (not -1) will
-*occupy empty spaces and merge with like cells that are surrounding them.
-*/
 
-game * make_game(int rows, int cols)
+game * make_game()
 /*! Create an instance of a game structure with the given number of rows
     and columns, initializing elements to -1 and return a pointer
     to it. (See game.h for the specification for the game data structure)
@@ -13,6 +8,8 @@ game * make_game(int rows, int cols)
     of functions.
 */
 {
+    int rows = 25;
+    int cols = 25;
     //Dynamically allocate memory for game and cells (DO NOT modify this)
     game * mygame = malloc(sizeof(game));
     mygame->cells = malloc(rows*cols*sizeof(cell));

@@ -29,7 +29,7 @@ typedef struct
 
 
 
-game * make_game(int rows, int cols);
+game * make_game();
 void destroy_game(game * cur_game);
 
 cell * get_cell(game * cur_game, int row, int col);

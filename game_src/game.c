@@ -8,8 +8,8 @@ game * make_game()
     of functions.
 */
 {
-    int rows = 25;
-    int cols = 25;
+    int rows = 4;
+    int cols = 4;
     //Dynamically allocate memory for game and cells (DO NOT modify this)
     game * mygame = malloc(sizeof(game));
     mygame->cells = malloc(rows*cols*sizeof(cell));
@@ -384,21 +384,25 @@ void rand_new_tile(game * cur_game)
 		exit(0);
 	}
 
-    int ind,row,col;
-	int num;
+    int ind,row,col,fucked;
     do{
 		ind = rand()%((cur_game->rows)*(cur_game->cols));
 		col = ind%(cur_game->cols);
 		row = ind/cur_game->cols;
+    int i;
+    for(i = 0; i < 4; i++){
+      if(*get_cell(cur_game, row - i, col) == 2 || *get_cell(cur_game, row + i, col) == 2 || *get_cell(cur_game, row, col + i) == 2 || *get_cell(cur_game, row, col - i) == 2){
+        fucked = 4;
+        break;
+      }
+      else{
+        fucked = 2;
+      }
+    }
     } while ( *get_cell(cur_game, row, col) != -1);
         //*get_cell(cur_game, row, col) = 2;
-	num = rand()%20;
-	if(num <= 1){
-		*get_cell(cur_game, row, col) = 4; // 1/10th chance
-	}
-	else{
-		*get_cell(cur_game, row, col) = 2;// 9/10th chance
-	}
+
+		*get_cell(cur_game, row, col) = fucked; // 1/10th chance
 }
 
 int print_game(game * cur_game)
